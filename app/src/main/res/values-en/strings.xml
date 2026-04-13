@@ -1283,4 +1283,5 @@ cd ~ &amp;&amp; pkg update -y \n
     <string name="zt_usage_habits_termux">Termux usage habit set successfully. Please go to settings to change the configuration.</string>
     <string name="zt_usage_habits_ztermux">ZeroTermux usage habit set successfully. Please go to settings to change the configuration.</string>
     <string name="zt_guide">Double-tap the edge of the screen to bring up the left/right menu bar\nIf you have set the ZT usage habit, use the Volume +\- keys\nIf the left/right sidebar cannot close this window\nLong press here to force close</string>
+    <string name="zt_core_date_error">There is an error in the upper and lower data of the core terminal. Please return to the desktop and try again.</string>
 </resources>
