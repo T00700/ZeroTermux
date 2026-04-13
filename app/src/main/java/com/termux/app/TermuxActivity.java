@@ -68,7 +68,7 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.lzy.okgo.model.Response;
 import com.termux.R;
-import com.termux.app.api.file.FileReceiverActivity;
+import com.termux.filepicker.TermuxFileReceiverActivity;
 import com.termux.app.terminal.TermuxActivityRootView;
 import com.termux.app.terminal.TermuxTerminalSessionActivityClient;
 import com.termux.app.terminal.io.TermuxTerminalExtraKeys;
@@ -368,7 +368,7 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
 
         registerForContextMenu(mTerminalView);
 
-        FileReceiverActivity.updateFileReceiverActivityComponentsState(this);
+        TermuxFileReceiverActivity.updateReceiverComponentsState(this);
 
         try {
             // Start the {@link TermuxService} and make it run regardless of who is bound to it
@@ -744,10 +744,8 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
 			// @}
         });
 
-        findViewById(R.id.toggle_keyboard_button).setOnLongClickListener(v -> {
-		  // ZeroTermux add {@
-            //toggleTerminalToolbar();
-			// @}
+        findViewById(R.id.key_bord_button).setOnLongClickListener(v -> {
+            toggleTerminalToolbar();
             return true;
         });
 		  // ZeroTermux add {@
@@ -1174,7 +1172,7 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         setMargins();
         setTerminalToolbarHeight();
 
-        FileReceiverActivity.updateFileReceiverActivityComponentsState(this);
+        TermuxFileReceiverActivity.updateReceiverComponentsState(this);
 
         if (mTermuxTerminalSessionActivityClient != null)
             mTermuxTerminalSessionActivityClient.onReloadActivityStyling();
