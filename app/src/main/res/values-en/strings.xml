@@ -1284,4 +1284,13 @@ cd ~ &amp;&amp; pkg update -y \n
     <string name="zt_usage_habits_ztermux">ZeroTermux usage habit set successfully. Please go to settings to change the configuration.</string>
     <string name="zt_guide">Double-tap the edge of the screen to bring up the left/right menu bar\nIf you have set the ZT usage habit, use the Volume +\- keys\nIf the left/right sidebar cannot close this window\nLong press here to force close</string>
     <string name="zt_core_date_error">There is an error in the upper and lower data of the core terminal. Please return to the desktop and try again.</string>
+
+    <string name="deepseek_input_key_error_info_400">Possible issues: \n\nReturns 400 with no DeepSeek Key set or entered the wrong key</string>
+    <string name="deepseek_input_key_error_info_401">Possible issues: 401 is returned, API key is wrong, authentication failed, Solution: Please check if your API key is correct</string>
+    <string name="deepseek_input_key_error_info_402">Possible problems: \n\nReturn 402, account balance is insufficient, solution: Please check the account balance and go to the Deepseek page to recharge</string>
+    <string name="deepseek_input_key_error_info_422">Possible problems: \n\nReturn 422, parameter error, solution: In general, this error is unlikely to occur, is the key not filled in correctly?</string>
+    <string name="deepseek_input_key_error_info_429">Possible problem: 429 is returned, and the request rate (TPM or RPM) reaches the upper limit.</string>
+    <string name="deepseek_input_key_error_info_500">Possible issues: 500 is returned, DeepSeek server is faulty, workaround: please wait and try again. If the problem persists, please contact DeepSeek to resolve it.</string>
+    <string name="deepseek_input_key_error_info_503">Possible issues: 503 is returned, server load is too high, workaround: Please retry your request later.</string>
+    <string name="deepseek_input_key_error_info_other">Possible problem: \n\nReturning code that is not recognized, the server may have broken this request? , Workaround: Please retry your request later.</string>
 </resources>

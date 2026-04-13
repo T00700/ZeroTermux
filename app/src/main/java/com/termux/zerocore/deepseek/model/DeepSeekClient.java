@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.xh_lib.utils.LogUtils;
 import com.example.xh_lib.utils.UUtils;
 import com.termux.R;
+import com.termux.zerocore.deepseek.utils.CodeStringUtils;
 import com.termux.zerocore.ftp.utils.UserSetManage;
 
 import okhttp3.*;
@@ -87,7 +88,7 @@ public class DeepSeekClient {
                         }
                     } else {
                         lis.msg(UUtils.getString(R.string.deepseek_input_key_error_start_info) + "\n\n```" + response
-                            + "```\n\n" + (response.code() == 401 ? UUtils.getString(R.string.deepseek_input_key_error_info) : ""), true);
+                            + "```\n\n" + CodeStringUtils.getCodeString(response.code()), true);
                         lis.end();
                     }
                 }
