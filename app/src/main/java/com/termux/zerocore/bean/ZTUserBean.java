@@ -40,6 +40,16 @@ public class ZTUserBean {
     private boolean isDisableMainConfigMenu;
     // 是否显示引导页面
     private boolean isHideGuideLayout;
+    // 是否写入过菜单背景
+    private boolean isWriterMenuBack;
+
+    public boolean isWriterMenuBack() {
+        return isWriterMenuBack;
+    }
+
+    public void setWriterMenuBack(boolean writerMenuBack) {
+        isWriterMenuBack = writerMenuBack;
+    }
 
     public boolean isHideGuideLayout() {
         return isHideGuideLayout;

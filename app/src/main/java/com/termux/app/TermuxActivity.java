@@ -14,7 +14,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Build;
@@ -134,9 +136,11 @@ import com.termux.zerocore.settings.ZtSettingsActivity;
 import com.termux.zerocore.config.ztcommand.ZTSocketService;
 import com.termux.zerocore.config.ztcommand.config.ZTKeyConstants;
 import com.termux.zerocore.url.FileUrl;
+import com.termux.zerocore.utils.BitmapUtils;
 import com.termux.zerocore.utils.FileHttpUtils;
 import com.termux.zerocore.utils.FileIOUtils;
 import com.termux.zerocore.utils.IsInstallCommand;
+import com.termux.zerocore.utils.MenuBackConfigUtils;
 import com.termux.zerocore.utils.PhoneUtils;
 import com.termux.zerocore.utils.SingletonCommunicationUtils;
 import com.termux.zerocore.utils.SmsUtils;
@@ -1955,6 +1959,33 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         } else {
             initListMenu(XMLMainMenuConfig.getXmlMainMenuCategoryDatas(this));
         }
+        UUtils.runOnThread(() -> {
+            //写入菜单背景
+            if (!ztUserBean.isWriterMenuBack()) {
+                ztUserBean.setWriterMenuBack(true);
+                UserSetManage.Companion.get().setZTUserBean(ztUserBean);
+                UUtils.writerFile("back/left.png", FileIOUtils.INSTANCE.getLeftMenuBackFile());
+                UUtils.writerFile("back/right.png", FileIOUtils.INSTANCE.getRightMenuBackFile());
+                UUtils.writerFile("back/info.txt", FileIOUtils.INSTANCE.getInfoMenuBackFile());
+            }
+            UUtils.runOnUIThread(() -> {
+                // 设置左边菜单背景
+                Bitmap leftBitMap = BitmapUtils.getBitmap(FileIOUtils.INSTANCE.getLeftMenuBackFile());
+                if (leftBitMap == null) {
+                    mLayoutMenuAll.setBackgroundColor(getColor(R.color.color_2b2b2b));
+                } else {
+                    mLayoutMenuAll.setBackground(new BitmapDrawable(leftBitMap));
+                }
+                // 设置右边菜单背景
+                Bitmap rightBitMap = BitmapUtils.getBitmap(FileIOUtils.INSTANCE.getRightMenuBackFile());
+                if (rightBitMap == null) {
+                    mIncludeRightMenu.setBackgroundColor(getColor(R.color.color_2b2b2b));
+                } else {
+                    mIncludeRightMenu.setBackground(new BitmapDrawable(rightBitMap));
+                }
+
+            });
+        });
     }
 
     private void writerMainMenuConfig(boolean cover) {
