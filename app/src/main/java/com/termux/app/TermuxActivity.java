@@ -2036,6 +2036,24 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
             }
             return false;
         }
+        ZTUserBean ztUserBean = UserSetManage.Companion.get().getZTUserBean();
+        if (!ztUserBean.isResetVolume() || MainActivity.isConnected()) {
+            if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+                if (getDrawer().isOpened()) {
+                    getDrawer().smoothClose();
+                } else {
+                    getDrawer().smoothLeftOpen();
+                }
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+                if (getDrawer().isOpened()) {
+                    getDrawer().smoothClose();
+                } else {
+                    getDrawer().smoothRightOpen();
+                }
+                return true;
+            }
+        }
         return super.onKeyDown(keyCode, event);
     }
 
