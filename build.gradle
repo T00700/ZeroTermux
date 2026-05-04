@@ -41,6 +41,7 @@ allprojects {
 ext.nightlyTermuxX11AarRepo = findProperty("nightlyTermuxX11AarRepo") ?: "XiaoTong6666/termux-x11"
 ext.nightlyTermuxX11AarTag = findProperty("nightlyTermuxX11AarTag") ?: "nightly-termux-x11-aar-zt"
 ext.nightlyTermuxX11AarAssetName = findProperty("nightlyTermuxX11AarAssetName") ?: "termux-x11-zt-nightly.aar"
+ext.nightlyAisleLoaderAssetName = findProperty("nightlyAisleLoaderAssetName") ?: "aisle_zt_loader.apk"
 
 def httpGetText = { String url, String githubToken ->
     def connection = new URL(url).openConnection()
@@ -75,12 +76,13 @@ def sha256Hex = { File file ->
 
 tasks.register("downloadNightlyTermuxX11Aar") {
     group = "build"
-    description = "Downloads the nightly termux-x11 zt AAR and verifies SHA-256."
+    description = "Downloads the nightly termux-x11 zt AAR and aisle_zt_loader.apk, and verifies SHA-256."
 
     def targetAar = rootProject.file("app/libs/termux-x11.aar")
+    def targetLoader = rootProject.file("app/src/main/assets/x11/${nightlyAisleLoaderAssetName}")
     def checksumOutput = layout.buildDirectory.file("downloads/nightly-termux-x11-aar/SHA256SUMS").get().asFile
 
-    outputs.files(targetAar, checksumOutput)
+    outputs.files(targetAar, targetLoader, checksumOutput)
     outputs.upToDateWhen { false }
 
     doLast {
@@ -133,6 +135,24 @@ tasks.register("downloadNightlyTermuxX11Aar") {
         targetAar.bytes = aarTemp.bytes
         checksumOutput.parentFile.mkdirs()
         checksumOutput.bytes = checksumTemp.bytes
+
+        // Also download and verify the loader APK from the same release
+        def loaderAsset = assetsByName[nightlyAisleLoaderAssetName]
+        if (!loaderAsset) {
+            throw new GradleException("Nightly release ${nightlyTermuxX11AarRepo}@${nightlyTermuxX11AarTag} is missing ${nightlyAisleLoaderAssetName}.")
+        }
+        def loaderExpectedSha = expectedChecksums[nightlyAisleLoaderAssetName]
+        if (!loaderExpectedSha) {
+            throw new GradleException("SHA256SUMS does not contain ${nightlyAisleLoaderAssetName}.")
+        }
+        def loaderTemp = new File(tempDir, nightlyAisleLoaderAssetName)
+        downloadToFile(loaderAsset.browser_download_url.toString(), loaderTemp, githubToken)
+        def loaderActualSha = sha256Hex(loaderTemp)
+        if (loaderActualSha != loaderExpectedSha) {
+            throw new GradleException("SHA-256 mismatch for ${nightlyAisleLoaderAssetName}: expected ${loaderExpectedSha}, got ${loaderActualSha}")
+        }
+        targetLoader.parentFile.mkdirs()
+        targetLoader.bytes = loaderTemp.bytes
     }
 }
 // ZeroTermux add {@
